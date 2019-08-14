@@ -16,7 +16,12 @@ class CreateCvsTable extends Migration
         Schema::create('cv', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('user_id');
+<<<<<<< Updated upstream
             $table->foreign('user_id')->references('id')->on('users');
+=======
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            ;
+>>>>>>> Stashed changes
             $table->string('title');
             $table->timestamps();
         });

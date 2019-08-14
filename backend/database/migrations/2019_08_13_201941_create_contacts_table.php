@@ -16,7 +16,11 @@ class CreateContactsTable extends Migration
         Schema::create('contact', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
+<<<<<<< Updated upstream
             $table->foreign('cv_id')->references('id')->on('cv');
+=======
+            $table->foreign('cv_id')->references('id')->on('cv')->onDelete('cascade');
+>>>>>>> Stashed changes
             $table->string('phone');
             $table->string('address');
             $table->string('email');

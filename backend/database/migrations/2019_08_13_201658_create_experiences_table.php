@@ -16,7 +16,11 @@ class CreateExperiencesTable extends Migration
         Schema::create('experience', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
+<<<<<<< Updated upstream
             $table->foreign('cv_id')->references('id')->on('cv');
+=======
+            $table->foreign('cv_id')->references('id')->on('cv')->onDelete('cascade');
+>>>>>>> Stashed changes
             $table->string('job_title');
             $table->string('company');
             $table->string('description');

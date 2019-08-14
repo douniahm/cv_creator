@@ -16,7 +16,11 @@ class CreateFormationsTable extends Migration
         Schema::create('formation', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
+<<<<<<< Updated upstream
             $table->foreign('cv_id')->references('id')->on('cv');
+=======
+            $table->foreign('cv_id')->references('id')->on('cv')->onDelete('cascade');
+>>>>>>> Stashed changes
             $table->string('degree');
             $table->string('school');
             $table->string('description');
