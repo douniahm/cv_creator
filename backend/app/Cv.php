@@ -6,23 +6,22 @@ use Illuminate\Database\Eloquent\Model;
 
 class Cv extends Model
 {
-<<<<<<< Updated upstream
-    //
-=======
+    public function user(){
+        return $this->belongsTo('App\User');
+    }
     public function formations(){
-        return $this->belongsTo('App\Formation');
+        return $this->hasMany('App\Formation');
     }
 
     public function competences(){
-        return $this->belongsTo('App\Competence');
+        return $this->hasMany('App\Competence');
     }
 
     public function experiences(){
-        return $this->belongsTo('App\Experience');
+        return $this->hasMany('App\Experience');
     }
 
     public function contacts(){
-        return $this->belongsTo('App\Contact');
+        return $this->hasMany('App\Contact');
     }
->>>>>>> Stashed changes
 }

@@ -13,14 +13,10 @@ class CreateContactsTable extends Migration
      */
     public function up()
     {
-        Schema::create('contact', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
-<<<<<<< Updated upstream
-            $table->foreign('cv_id')->references('id')->on('cv');
-=======
-            $table->foreign('cv_id')->references('id')->on('cv')->onDelete('cascade');
->>>>>>> Stashed changes
+            $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
             $table->string('phone');
             $table->string('address');
             $table->string('email');

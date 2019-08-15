@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -35,5 +36,21 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function login(Request $request)
+    {
+        $user = \App\User::where('email', $request->email)->get()->first();
+        if ($user && \Hash::check($request->password, $user->password)) // The passwords match...
+        {
+            $token = self::getToken($request->email, $request->password);
+            $user->auth_token = $token;
+            $user->save();
+            $response = ['success'=>true, 'data'=>['id'=>$user->id,'auth_token'=>$user->auth_token,'name'=>$user->name, 'email'=>$user->email]];
+        }
+        else
+          $response = ['success'=>false, 'data'=>'Record doesnt exists'];
+
+        return response()->json($response, 201);
     }
 }
