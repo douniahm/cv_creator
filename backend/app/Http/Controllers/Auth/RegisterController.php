@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use JWTAuth;
+use JWTAuthException;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -68,5 +70,57 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+    }
+
+    private function getToken($email, $password)
+    {
+        $token = null;
+        try {
+            if (!$token = JWTAuth::attempt( ['email'=>$email, 'password'=>$password])) {
+                return response()->json([
+                    'response' => 'error',
+                    'message' => 'Password or email is invalid',
+                    'token'=>$token
+                ]);
+            }
+        } catch (JWTAuthException $e) {
+            return response()->json([
+                'response' => 'error',
+                'message' => 'Token creation failed',
+            ]);
+        }
+        return $token;
+    }
+
+    public function register(Request $request)
+    {
+        $payload = [
+            'password'=>\Hash::make($request->password),
+            'email'=>$request->email,
+            'name'=>$request->name,
+            'auth_token'=> ''
+        ];
+
+        $user = new \App\User($payload);
+        if ($user->save())
+        {
+
+            $token = self::getToken($request->email, $request->password); // generate user token
+
+            if (!is_string($token))  return response()->json(['success'=>false,'data'=>'Token generation failed'], 201);
+
+            $user = \App\User::where('email', $request->email)->get()->first();
+
+            $user->auth_token = $token; // update user token
+
+            $user->save();
+
+            $response = ['success'=>true, 'data'=>['name'=>$user->name,'id'=>$user->id,'email'=>$request->email,'auth_token'=>$token]];
+        }
+        else
+            $response = ['success'=>false, 'data'=>'Couldnt register user'];
+
+
+        return response()->json($response, 201);
     }
 }
