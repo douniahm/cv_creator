@@ -1,59 +1,112 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import { Formik, Form, Field } from 'formik';
+import { createBrowserHistory } from "history";
 import {userService} from '../services/user.service';
+import * as Yup from 'yup';
+
+const history = createBrowserHistory();
+
+const SignupSchema = Yup.object().shape({ 
+  name: Yup.string()
+    .min(4, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  password: Yup.string()
+    .min(4, 'Too Short!')
+    .max(50, 'Too Long!')
+    .required('Required'),
+  email: Yup.string()
+    .email('Invalid email')
+    .required('Required'),
+});
 
 class Register extends Component {
     constructor(props) {
       super(props);
       //TODO: if user already logged, redirect him to create cv
-      //show error msg
       this.state = {
-        name: '',
-        email: '',
-        password: '',
-        msgError: '',
+        isRegistrationFailed: false, //for showing error msg
       };
       }
 
       render(){
+        const isRegistrationFailed = this.state.isRegistrationFailed;
+        let errorMsg;
+        if (isRegistrationFailed===true) errorMsg = <div className="text-danger">Registation failed, try again!</div>
         return(
           <div>
             <div className="title">Create Account</div>
             <div className="container spacer col-md-4 offset-md-4 col-sm-12 login-form">
-                  <form onSubmit={this.handleRegister}>
-                    <div className="form-group">
-                      <label htmlFor="name"><input type="text"
-                        className="form-control border rounded" id="name" name="name" placeholder="full name" onChange={this.handleChange}/></label>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="email"><input type="text"
-                        className="form-control border rounded" id="email" name="email" placeholder="email" onChange={this.handleChange}/></label>
-                    </div>
-                    <div className="form-group">
-                      <label htmlFor="password"><input type="password"
-                        className="form-control border rounded" id="password" name="password" placeholder="password" onChange={this.handleChange}/></label>
-                    </div>
-                    <div>
-                      <button type="submit" className="btn btn-dark">Register</button>
-                      <p>Already registred?<Link to="/login">Sign in</Link></p>
-                    </div>
-                  </form>
-            </div>
+              {errorMsg}
+            <Formik
+      initialValues={{
+        name: '',
+        password: '',
+        email: '',
+      }}
+      validationSchema={SignupSchema}
+      onSubmit={values => {
+        const { name, email, password } = values;
+        this.handleRegister(name, email, password);
+      }}
+    >
+      {({ errors, touched }) => (
+        <Form>
+          <Field name="name" 
+            className="form-control border rounded" placeholder="full name"/>
+          {errors.name && touched.name ? (
+            <div className="text-danger">{errors.name}</div>
+          ) : null}
+          <Field name="email"
+            className="form-control border rounded" placeholder="email"/>
+          {errors.email && touched.email ? (
+            <div className="text-danger">{errors.email}</div>
+          ) : null}
+          <Field name="password" type="password" 
+          className="form-control border rounded" placeholder="password"/>
+          {errors.password && touched.password ? <div className="text-danger">{errors.password}</div> : null}
+          <br/>
+          <div>
+            <button type="submit" className="btn btn-dark">Register</button>
+            <p>Already registred?<Link to="/login">Sign in</Link></p>
+          </div>   
+        </Form>
+      )}
+    </Formik>
           </div>
-          
+          </div>
         )
       }
 
-      handleChange = (e) => {
-        this.setState({message:'', errors:''})
-        const { id, value } = e.target;
-        this.setState({ [id]: value });
-      }
-
-      handleRegister = (e) => {
-        e.preventDefault();
-        const { name, email, password } = this.state;
-        userService.register(name, email, password);
+      handleRegister (name, email, password){
+        userService.register(name, email, password)
+        .then(response => {
+          console.log(response);
+          return response;
+        })
+        .then(json => {
+          if (json.data.success) {
+            const { name, id, email, auth_token } = json.data.data;
+            let userData = {
+              name,
+              id,
+              email,
+              auth_token,
+              timestamp: new Date().toString()
+            };
+            // save user data in browser local storage
+            localStorage["user"] = JSON.stringify(userData);
+            //REDIRECT
+            history.push("/");
+          } 
+          // show error msg
+          else this.setState({isRegistrationFailed:true});  
+        })
+        .catch(error => {
+          //show error msg 
+          this.setState({isRegistrationFailed:true});
+        });
       };
 }
 export default Register;

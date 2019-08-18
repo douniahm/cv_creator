@@ -14,32 +14,8 @@ function login(email, password){
     var formData = new FormData();
     formData.append("email", email);
     formData.append("password", password);
-
-    axios
-      .post(API_URL+"login", formData)
-      .then(response => {
-        console.log(response);
-        return response;
-      })
-      .then(json => {
-        if (json.data.success) {
-          const { name, id, email, auth_token } = json.data.data;
-          let userData = {
-            name,
-            id,
-            email,
-            auth_token,
-            timestamp: new Date().toString()
-          };
-          // save user data in browser local storage
-          localStorage["user"] = JSON.stringify(userData);
-          return true;
-        } else return false;
-      })
-      .catch(error => {
-        return false;
-      });
-  };
+    return axios.post(API_URL+"login", formData)
+  }
 
 function register(name, email, password){
     var formData = new FormData();
@@ -47,34 +23,7 @@ function register(name, email, password){
     formData.append("email", email);
     formData.append("name", name);
 
-    axios
-      .post(API_URL+"register", formData)
-      .then(response => {
-        console.log(response);
-        return response;
-      })
-      .then(json => {
-        if (json.data.success) {
-          const { name, id, email, auth_token } = json.data.data;
-          let userData = {
-            name,
-            id,
-            email,
-            auth_token,
-            timestamp: new Date().toString()
-          };
-          // save user data in browser local storage
-          localStorage["user"] = JSON.stringify(userData);
-          //redirection
-          history.push("/");
-        } else {
-          alert(`Registration Failed!`);
-        }
-      })
-      .catch(error => {
-        alert("An Error Occured!" + error);
-        console.log(`${formData} ${error}`);
-      });
+    return axios.post(API_URL+"register", formData)
   };
   
     // delete user data from browser local storag
