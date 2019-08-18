@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
-use JWTAuth;
-use JWTAuthException;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\GetToken;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
@@ -53,7 +53,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:3', 'confirmed'],
         ]);
     }
 
@@ -72,26 +72,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    private function getToken($email, $password)
-    {
-        $token = null;
-        try {
-            if (!$token = JWTAuth::attempt( ['email'=>$email, 'password'=>$password])) {
-                return response()->json([
-                    'response' => 'error',
-                    'message' => 'Password or email is invalid',
-                    'token'=>$token
-                ]);
-            }
-        } catch (JWTAuthException $e) {
-            return response()->json([
-                'response' => 'error',
-                'message' => 'Token creation failed',
-            ]);
-        }
-        return $token;
-    }
-
     public function register(Request $request)
     {
         $payload = [
@@ -104,8 +84,7 @@ class RegisterController extends Controller
         $user = new \App\User($payload);
         if ($user->save())
         {
-
-            $token = self::getToken($request->email, $request->password); // generate user token
+            $token = GetToken::getToken($request->email, $request->password); // generate user token
 
             if (!is_string($token))  return response()->json(['success'=>false,'data'=>'Token generation failed'], 201);
 
@@ -119,7 +98,6 @@ class RegisterController extends Controller
         }
         else
             $response = ['success'=>false, 'data'=>'Couldnt register user'];
-
 
         return response()->json($response, 201);
     }
