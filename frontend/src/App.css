@@ -1,15 +1,18 @@
+*{
+  font-size: 13px;
+}
 link{
   width: 100%;
   float: left;
   clear: both;
   text-align: center;
 }
-
 .login-form{
-  border-radius: 5px 3px 3px 3px;
-  margin-top: 4%;
-  box-shadow: 0px 0px 3px hsl(0, 0%, 52%);
-  text-align: center
+  margin-top: 2%;
+  border-radius: 1px 1px 1px 1px;
+  box-shadow: 0px 0px 1px hsl(0, 0%, 52%);
+  text-align: center;
+  background-color: white;
 }
 .spacer{
   padding: 30px;
@@ -18,22 +21,36 @@ link{
   cursor: pointer;
 }
 .title{
+  margin: 0%;
   text-align: center;
-  margin: 3%;
-  font-size: 40px;
+  font-size: 30px;
   text-transform: capitalize;
 }
-label {
-  display:block;
-  position:relative;
-  margin: 20px;
+.sub-title{
+  text-align: left;
+  font-size: 18px;
+  text-transform: capitalize;
 }
-label > img {
-  position:absolute;
-  left:0;
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+    margin: 0;
 }
-label> input{
-  padding-left: 30px;
-  background: transparent;
+input[type="number"]{
+    -moz-appearance: textfield;
 }
-
+#side-menu{
+  font-size: 16px;
+  border-radius: 5px 3px 3px 3px;
+  box-shadow: 0px 0px 3px hsl(0, 0%, 52%);
+  background-color: white;
+  height: min-content;
+}
+.menu-option:hover{
+  background-color: rgb(235, 232, 232);
+}
+.cv-container{
+  margin: 0%;
+  border-radius: 1px 1px 1px 1px;
+  box-shadow: 0px 0px 1px hsl(0, 0%, 52%);
+}

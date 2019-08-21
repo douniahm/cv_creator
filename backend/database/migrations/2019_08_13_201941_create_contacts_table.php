@@ -17,9 +17,9 @@ class CreateContactsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
-            $table->string('phone');
-            $table->string('address');
-            $table->string('email');
+            $table->string('phone')->nullable();
+            $table->string('address')->nullable();
+            $table->string('email')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateContactsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('contact');
+        Schema::dropIfExists('contacts');
     }
 }

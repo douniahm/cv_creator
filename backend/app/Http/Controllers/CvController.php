@@ -14,7 +14,12 @@ class CvController extends Controller
         $cv = new Cv();
         $cv->user_id=$request->user_id;
         $cv->title=$request->title;
-        $cv->save();
+
+        if($cv->save())
+            $response = ['success'=>true, 'data'=>['id'=>$cv->id,'title'=>$cv->title]];
+        else  $response = ['success'=>false, 'data'=>'Couldnt register cv'];
+
+        return response()->json($response, 201);
     }
     public function update(Request $request, $id){
         $cv = Cv::find($id);

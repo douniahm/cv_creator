@@ -13,17 +13,18 @@ class CompetenceController extends Controller
     public function create(Request $request){
         $competence = new Competence();
         $competence->cv_id=$request->cv_id;
-        $competence->title=$request->phone;
-        $competence->address=$request->address;
-        $competence->email=$request->email;
-        $competence->save();
+        $competence->title=$request->title;
+
+        if($competence->save())
+            $response = ['success'=>true];
+        else  $response = ['success'=>false, 'data'=>'Couldnt register competence'];
+
+        return response()->json($response, 201);
     }
     public function update(Request $request, $id){
         $competence = Competence::find($id);
         $competence->cv_id=$request->cv_id;
-        $competence->title=$request->phone;
-        $competence->address=$request->address;
-        $competence->email=$request->email;
+        $competence->title=$request->title;
         $competence->save();
     }
     public function destroy(){

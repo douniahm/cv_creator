@@ -17,9 +17,9 @@ class CreateFormationsTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
-            $table->string('degree');
-            $table->string('school');
-            $table->string('description');
+            $table->string('degree')->nullable();
+            $table->string('school')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

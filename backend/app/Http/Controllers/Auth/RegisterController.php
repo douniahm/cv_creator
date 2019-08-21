@@ -78,7 +78,7 @@ class RegisterController extends Controller
             'password'=>\Hash::make($request->password),
             'email'=>$request->email,
             'name'=>$request->name,
-            'auth_token'=> ''
+            'api_token'=> ''
         ];
 
         $user = new \App\User($payload);
@@ -90,11 +90,11 @@ class RegisterController extends Controller
 
             $user = \App\User::where('email', $request->email)->get()->first();
 
-            $user->auth_token = $token; // update user token
+            $user->api_token = $token; // update user token
 
             $user->save();
 
-            $response = ['success'=>true, 'data'=>['name'=>$user->name,'id'=>$user->id,'email'=>$request->email,'auth_token'=>$token]];
+            $response = ['success'=>true, 'data'=>['name'=>$user->name,'id'=>$user->id,'email'=>$request->email,'api_token'=>$token]];
         }
         else
             $response = ['success'=>false, 'data'=>'Couldnt register user'];

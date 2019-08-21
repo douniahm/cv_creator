@@ -17,9 +17,9 @@ class CreateExperiencesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
-            $table->string('job_title');
-            $table->string('company');
-            $table->string('description');
+            $table->string('job_title')->nullable();
+            $table->string('company')->nullable();
+            $table->string('description')->nullable();
             $table->timestamps();
         });
     }

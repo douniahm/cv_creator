@@ -1,13 +1,11 @@
 import axios from "axios";
-import { createBrowserHistory } from "history";
 const API_URL = process.env.REACT_APP_API_URL;
 
-const history = createBrowserHistory();
 export const userService = {
   login,
   register,
   logout,
-  isUserLogged
+  isUserLogged,
 };
 
 function login(email, password){
@@ -33,5 +31,5 @@ function register(name, email, password){
 
   // get user data if user already is logged
 function isUserLogged(){
-    return localStorage.getItem('userDate');
+  return JSON.parse(localStorage.getItem('user'));
 }

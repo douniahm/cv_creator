@@ -75,15 +75,17 @@ class Login extends Component {
         })
         .then(json => {
           if (json.data.success) {
-            const { name, email, auth_token } = json.data.data;
+            const { id, name, email, api_token } = json.data.data;
             let userData = {
+              id,
               name,
               email,
-              auth_token,
+              api_token,
               timestamp: new Date().toString()
             };
             // save user data in browser local storage
-            localStorage["user"] = JSON.stringify(userData);
+            localStorage.setItem('user', JSON.stringify(userData));
+
             //REDIRECT
             history.push("/");
           } 

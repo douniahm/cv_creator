@@ -87,12 +87,12 @@ class Register extends Component {
         })
         .then(json => {
           if (json.data.success) {
-            const { name, id, email, auth_token } = json.data.data;
+            const {id, name, email, api_token } = json.data.data;
             let userData = {
-              name,
               id,
+              name,
               email,
-              auth_token,
+              api_token,
               timestamp: new Date().toString()
             };
             // save user data in browser local storage

@@ -17,7 +17,7 @@ class CreateCompetencesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('cv_id');
             $table->foreign('cv_id')->references('id')->on('cvs')->onDelete('cascade');
-            $table->string('title');
+            $table->string('title')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ class CreateCompetencesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('competence');
+        Schema::dropIfExists('competences');
     }
 }

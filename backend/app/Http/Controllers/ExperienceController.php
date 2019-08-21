@@ -16,7 +16,12 @@ class ExperienceController extends Controller
         $experience->job_title=$request->job_title;
         $experience->company=$request->company;
         $experience->description=$request->description;
-        $experience->save();
+
+        if($experience->save())
+            $response = ['success'=>true];
+        else  $response = ['success'=>false, 'data'=>'Couldnt register experience'];
+
+        return response()->json($response, 201);
     }
     public function update(Request $request, $id){
         $experience = Experience::find($id);

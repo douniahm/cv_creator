@@ -17,7 +17,12 @@ class FormationController extends Controller
         $formation->degree=$request->degree;
         $formation->school=$request->school;
         $formation->description=$request->description;
-        $formation->save();
+        
+        if($formation->save())
+            $response = ['success'=>true];
+        else  $response = ['success'=>false, 'data'=>'Couldnt register formation'];
+
+        return response()->json($response, 201);
     }
     public function update(Request $request, $id){
         $formation = Formation::find($id);
