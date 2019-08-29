@@ -13,7 +13,7 @@ function login(email, password){
     formData.append("email", email);
     formData.append("password", password);
     return axios.post(API_URL+"login", formData)
-  }
+}
 
 function register(name, email, password){
     var formData = new FormData();
@@ -22,14 +22,15 @@ function register(name, email, password){
     formData.append("name", name);
 
     return axios.post(API_URL+"register", formData)
-  };
+};
   
-    // delete user data from browser local storag
+  // delete user data from browser local storag
   function logout(){
     localStorage.removeItem('user');
+    window.location.href = "/login";
   };
 
   // get user data if user already is logged
-function isUserLogged(){
-  return JSON.parse(localStorage.getItem('user'));
-}
+  function isUserLogged(){
+    return JSON.parse(localStorage.getItem('user'));
+  }

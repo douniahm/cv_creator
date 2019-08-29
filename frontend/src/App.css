@@ -1,11 +1,19 @@
 *{
-  font-size: 13px;
+  font-size: 14px;
 }
 link{
   width: 100%;
   float: left;
   clear: both;
   text-align: center;
+}
+.navLink{
+  color: black;
+  font-size: 15px;
+}
+.activeLink{
+  text-decoration: none;
+  font-weight: bold;
 }
 .login-form{
   margin-top: 2%;
@@ -28,8 +36,9 @@ link{
 }
 .sub-title{
   text-align: left;
-  font-size: 18px;
+  font-size: 16px;
   text-transform: capitalize;
+  font-weight: bold;
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button{
@@ -53,4 +62,21 @@ input[type="number"]{
   margin: 0%;
   border-radius: 1px 1px 1px 1px;
   box-shadow: 0px 0px 1px hsl(0, 0%, 52%);
+}
+.hr{
+  border: 2px solid gray;
+  border-radius: 5px;
+}
+.mini-hr{
+  width: 30%;
+}
+.cv-title{
+  font-size: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+.item{
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
 }

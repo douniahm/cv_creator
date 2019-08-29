@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Cv;
+use Auth;
 
 class CvController extends Controller
 {
-    public function index($id){
-        return Cv::find($id);
+    public function index(Request $request){
+        return Cv::find($request->id)->with('formations','contact','competences','experiences')->get();
+    }
+    public function indexAll(Request $request){
+        return Cv::where('user_id',1)->with('formations','contact','competences','experiences')->get();
     }
     public function create(Request $request){
         $cv = new Cv();
@@ -27,8 +31,8 @@ class CvController extends Controller
         $cv->title=$request->title;
         $cv->save();
     }
-    public function destroy(){
-        $cv = Cv::find($id);
+    public function destroy(Request $request){
+        $cv = Cv::find($request->cv_id);
         $cv->delete();
     }
 }

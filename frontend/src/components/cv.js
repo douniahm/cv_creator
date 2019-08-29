@@ -22,7 +22,7 @@ class Cv extends Component {
       this.state = {
         items: [], //cv elements components (Formations, Contact..)
         isSaveFailed : false, //for showing error msg
-        isTitle : false, //show title bar only one time
+        isTitle : false, //show only one title bar
       };
     }
     componentDidMount(){
@@ -39,10 +39,8 @@ class Cv extends Component {
         <div className="title">Build your CV <br/> {errorMsg}</div>
         <div className="row">
             <div className="col-10">
-                <React.Fragment>
-                    {this.state.items}
-                    <br/>
-                </React.Fragment>
+                  {this.state.items}
+                  <br/>
             </div>
             <div className="col-2" id="side-menu" ref={this.nav}>
               <div className="menu-option"><button className="btn btn-md" id="title" onClick={this.renderTitle}>
@@ -79,7 +77,9 @@ class Cv extends Component {
       if(!cv.hasOwnProperty('formations')){ 
         cv.formations = [{degree:'', school:'', description:''}]; //initilize formations array
         let formationsItem = [];
-        formationsItem.push(<Formations handleChange={this.handleChangeFromOtherComponents} formations={cv.formations} key={'formations'}/>)
+        formationsItem.push(
+            <Formations handleChange={this.handleChangeFromOtherComponents} formations={cv.formations} key={'formations'}/>
+          )
         this.setState({
           items: [...this.state.items, ...formationsItem]
         })
@@ -105,7 +105,9 @@ class Cv extends Component {
       if(!cv.hasOwnProperty('competences')){ 
         cv.competences = [{title:''}]; 
         let competencesItem = [];
-        competencesItem.push(<Competences handleChange={this.handleChangeFromOtherComponents} competences={cv.competences} key={'competences'}/>)
+        competencesItem.push(
+            <Competences handleChange={this.handleChangeFromOtherComponents} competences={cv.competences} key={'competences'}/>
+        )
         this.setState({
           items: [...this.state.items, ...competencesItem]
         })}
@@ -114,7 +116,9 @@ class Cv extends Component {
       if(!cv.hasOwnProperty('experiences')){ 
         cv.experiences = [{job:'', company:'', description:''}]; 
         let experiencesItem = [];
-        experiencesItem.push(<Experiences handleChange={this.handleChangeFromOtherComponents} experiences={cv.experiences} key={'experiences'}/>)
+        experiencesItem.push(
+            <Experiences handleChange={this.handleChangeFromOtherComponents} experiences={cv.experiences} key={'experiences'}/>
+        )
         this.setState({
           items: [...this.state.items, ...experiencesItem]
         })}
@@ -123,7 +127,9 @@ class Cv extends Component {
       if(!cv.hasOwnProperty('contact')){ 
         cv.contact = {phone:'', email:'', address:'', title:''}; 
         let contactItem = [];
-        contactItem.push(<Contact handleChange={this.handleChangeFromOtherComponents} contact={cv.contact} key={'contact'}/>)
+        contactItem.push(
+            <Contact handleChange={this.handleChangeFromOtherComponents} contact={cv.contact} key={'contact'}/>
+          )
         this.setState({
           items: [...this.state.items, ...contactItem]
         })}
@@ -161,6 +167,7 @@ class Cv extends Component {
         if(response.data.success===true){
           this.saveCvData(response.data.data.id);
           //TODO redirec to show cv
+          this.props.history.push('/cvs');
         }
         return response;
       })

@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from 'formik';
-import { createBrowserHistory } from "history";
 import {userService} from '../services/user.service';
 import * as Yup from 'yup';
 
-const history = createBrowserHistory();
 
 const SignupSchema = Yup.object().shape({ 
   password: Yup.string()
@@ -86,8 +84,9 @@ class Login extends Component {
             // save user data in browser local storage
             localStorage.setItem('user', JSON.stringify(userData));
 
-            //REDIRECT
-            history.push("/");
+            //REDIRECT to user's cvs
+            window.location.href = "/cvs";
+
           } 
           //show error msg 
           else this.setState({isLoginFailed:true});  

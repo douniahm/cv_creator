@@ -1,37 +1,34 @@
-import React from 'react';
-import './App.css';
-
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import ProtectedRoutes from './guards/ProtectedRoutes.guard'
+import Navbar from './components/navbar'
 import Register from './components/register'
 import Login from './components/login'
-import Formations from './components/formations'
-import Experiences from './components/experiences'
-import Competences from './components/competences'
-import Contact from './components/contact'
 import Cv from './components/cv'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import ListCvs from './components/listCvs'
+import ShowCv from './components/showCv' 
+import './App.css';
 
-
-function App() {
-  return (
+class App extends Component {
+  render(){
+    return (
     <div className="App">
         <Router>
           <React.Fragment>
-            <div className='container'>
-              <Switch>
-                <Route exact path='/' component={Register} />
-                <Route path='/register' component={Register} />
-                <Route path='/login' component={Login} />
-                <Route path='/formations' component={Formations} />
-                <Route path='/experiences' component={Experiences} />
-                <Route path='/competences' component={Competences} />
-                <Route path='/contact' component={Contact} />
-                <Route path='/cv' component={Cv} />
-              </Switch>
-            </div>
+          {window.location.pathname === '/register' || window.location.pathname === '/login' ? null
+        : <Navbar />}
+            <Switch>
+              <ProtectedRoutes exact path='/' component={ListCvs} /> 
+              <ProtectedRoutes path='/new' component={Cv} />
+              <ProtectedRoutes path='/cvs' component={ListCvs} />
+              <ProtectedRoutes path='/cv' component={ShowCv}/>
+              <Route path='/register' component={Register} />
+              <Route path='/login' component={Login} />
+            </Switch>
           </React.Fragment>
         </Router>
       </div>
   );
 }
-
+}
 export default App;

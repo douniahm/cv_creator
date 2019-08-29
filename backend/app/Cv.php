@@ -21,7 +21,7 @@ class Cv extends Model
         return $this->hasMany('App\Experience');
     }
 
-    public function contacts(){
-        return $this->hasMany('App\Contact');
+    public function contact(){
+        return $this->hasOne('App\Contact');
     }
 }

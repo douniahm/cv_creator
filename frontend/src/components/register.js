@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Formik, Form, Field } from 'formik';
-import { createBrowserHistory } from "history";
 import {userService} from '../services/user.service';
 import * as Yup from 'yup';
-
-const history = createBrowserHistory();
 
 const SignupSchema = Yup.object().shape({ 
   name: Yup.string()
@@ -97,8 +94,8 @@ class Register extends Component {
             };
             // save user data in browser local storage
             localStorage["user"] = JSON.stringify(userData);
-            //REDIRECT
-            history.push("/");
+            //REDIRECT to user's cvs
+            window.location.href = "/cvs";
           } 
           // show error msg
           else this.setState({isRegistrationFailed:true});  
