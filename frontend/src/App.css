@@ -7,8 +7,8 @@ link{
   clear: both;
   text-align: center;
 }
-.navLink{
-  color: black;
+.navLink, .navLink:hover{
+  color: white;
   font-size: 15px;
 }
 .activeLink{
@@ -49,7 +49,7 @@ input[type="number"]{
     -moz-appearance: textfield;
 }
 #side-menu{
-  font-size: 16px;
+  font-size: 14;
   border-radius: 5px 3px 3px 3px;
   box-shadow: 0px 0px 3px hsl(0, 0%, 52%);
   background-color: white;

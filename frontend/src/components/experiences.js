@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+//experiences passed as props from Cv component
 let experiences = [];
+/*function for update cv content in the parent component(cv), passed as props from cv creation component*/
 let handleChange;
 
+/*Adding Experience component*/
 class Experience extends Component {
     constructor(props) {
       super(props);
@@ -16,16 +19,19 @@ class Experience extends Component {
               <form>
                 <div className="row">
                   <div className="form-group col-6">
-                    <input type="text" className="form-control border rounded" defaultValue={this.props.experience.job}
+                    <input type="text" className="form-control border rounded" 
+                    defaultValue={this.props.experience.job}
                     id="job" name="job" placeholder="job" onChange={this.handleChange}/>
                   </div>
                   <div className="form-group col-6">
-                    <input type="text" className="form-control border rounded" defaultValue={this.props.experience.company}
+                    <input type="text" className="form-control border rounded" 
+                    defaultValue={this.props.experience.company}
                     id="company" name="company" placeholder="company" onChange={this.handleChange}/>
                   </div>
                 </div>
                 <div className="form-group">
-                  <input type="text" className="form-control border rounded" defaultValue={this.props.experience.description}
+                  <input type="text" className="form-control border rounded" 
+                  defaultValue={this.props.experience.description}
                   id="description" name="description" placeholder="description" onChange={this.handleChange}/>
                 </div>
               </form>
@@ -39,6 +45,7 @@ class Experience extends Component {
     }
 }
 
+//Experiences component: has many Experience
 class Experiences extends Component {
     constructor(props) {
       super(props);
@@ -55,7 +62,9 @@ class Experiences extends Component {
     render(){
       return(
         <div className="container spacer col-12 login-form">
-        <div className="sub-title">Experiences <button className="btn btn-light" onClick={this.newExperience}>Add experience</button></div>
+        <div className="sub-title">
+          Experiences 
+          <button className="btn btn-light" onClick={this.newExperience}><span>&#43;</span></button></div>
           <React.Fragment>
             {this.state.items}
           </React.Fragment>

@@ -3,21 +3,26 @@ import { NavLink } from "react-router-dom";
 import {userService} from '../services/user.service';
 
 class Navbar extends Component {
-    render(){///////SEE Ben's project for navbar
+    render(){
       if(userService.isUserLogged()!=null){
       return(
-        <nav className="navbar navbar-expand-lg navbar-light bg-light">
+        <nav className="navbar navbar-expand-lg bg-dark">
             <ul className="navbar-nav">
                     <li>
                         <NavLink to={"/cvs"} activeClassName="activeLink" className="navLink">
                             My Cvs
                         </NavLink>
-                    </li> &nbsp; &nbsp; 
+                    </li> &nbsp; /&nbsp; 
                     <li className="nav-item active">
                         <NavLink to={"/new"} activeClassName="activeLink" className="navLink">
                             New Cv
                         </NavLink>
-                    </li> &nbsp; &nbsp; 
+                    </li> &nbsp; /&nbsp; 
+                    <li className="nav-item active">
+                        <NavLink to={"/newdnd"} activeClassName="activeLink" className="navLink">
+                            Drog&Drop Cv
+                        </NavLink>
+                    </li> &nbsp; /&nbsp; 
                     <li className="nav-item">
                         <NavLink onClick={this.onLogOut} to="/login" className="navLink">
                             Log out

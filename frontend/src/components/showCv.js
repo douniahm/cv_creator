@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {userService} from '../services/user.service';
 
-//helpers components for displaying fomration, experiences and competences
+//helpers components for displaying fomrations, experiences and competences
 class Formations extends Component {
   render(){
       return(
@@ -84,6 +84,7 @@ class ShowCv extends Component {
           <div className="row">
             <div className="col-6"> 
               <p className="cv-title">{name}</p>
+              {/*Handle untitled cvs*/}
               {this.state.cv.title ? (<p className="cv-title">{this.state.cv.title}</p>) : ''}
             </div>
             <div className="col-6">

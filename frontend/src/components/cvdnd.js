@@ -1,3 +1,4 @@
+//Second Version of cv with drag and drop
 import React, { Component } from 'react';
 import Formations from './formations'
 import Experiences from './experiences'
@@ -15,7 +16,7 @@ let ticking = false;
 //cv data
 let cv = {title:'',};
 
-class Cv extends Component {
+class CvDnd extends Component {
     constructor(props) {
       super(props);
       this.handleScroll = this.handleScroll.bind(this);
@@ -36,28 +37,28 @@ class Cv extends Component {
         if (this.state.isSaveFailed===true) errorMsg = <div className="text-danger">Operation failed, try again!</div>
       return(
         <div className="container col-12 bg-light cv-container">
-        <div className="title">Build your CV <br/> {errorMsg}</div>
+        <div className="title">Drag & Drop your CV <br/> {errorMsg}</div>
         <div className="row">
-            <div className="col-10">
+            <div className="col-10" onDrop={(event)=>this.drop(event)} onDragOver={(event)=>this.allowDrop(event)}>
                   {this.state.items}
                   <br/>
             </div>
             <div className="col-2" id="side-menu" ref={this.nav}>
-              <div className="menu-option"><button className="btn btn-md" id="title" onClick={this.renderTitle}>
+              <div className="menu-option" draggable="true" id="title" onDragStart={(event)=>this.drag(event)}>
                 <img src="/icons/title.png" alt="title"/> Title
-              </button></div><hr/>
-              <div className="menu-option"><button className="btn btn-md" id="formations" onClick={this.renderFormations}>
+              </div><hr/>
+              <div className="menu-option" draggable="true" id="formations" onDragStart={(event)=>this.drag(event)}>
                 <img src="/icons/formation.png" alt="formations"/> Formations
-              </button></div><hr/>
-              <div className="menu-option"><button className="btn btn-md" id="competences" onClick={this.renderCompetences}>
+              </div><hr/>
+              <div className="menu-option" draggable="true" id="competences" onDragStart={(event)=>this.drag(event)}>
                 <img src="/icons/competence.png" alt="competences"/> Competences
-              </button></div><hr/>
-              <div className="menu-option"><button className="btn btn-md" id="experiences" onClick={this.renderExperiences}>
+              </div><hr/>
+              <div className="menu-option" draggable="true" id="experiences" onDragStart={(event)=>this.drag(event)}>
                 <img src="/icons/experience.png" alt="experiences"/> Experiences
-              </button></div><hr/>
-              <div className="menu-option"><button className="btn btn-md" id="contact" onClick={this.renderContact}>
+              </div><hr/>
+              <div className="menu-option" draggable="true" id="contact" onDragStart={(event)=>this.drag(event)}>
                 <img src="/icons/contact.png" alt="contact"/> Contact
-              </button></div><hr/>
+              </div><hr/>
               <div className="menu-option"><button className="btn btn-md" id="clear" onClick={this.onClear}>
                 <img src="/icons/clean.png" alt="clean"/> Clear
               </button></div><hr/>
@@ -71,15 +72,28 @@ class Cv extends Component {
         </div>
         </div>
     )}
-    
+    drag = (ev) => {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+    drop = (ev) =>{
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      if(data === 'title') this.renderTitle();
+      else if(data === 'formations') this.renderFormations();
+      else if(data === 'experiences') this.renderExperiences();
+      else if(data === 'competences') this.renderCompetences();
+      else if(data === 'contact') this.renderContact();
+    }
+    allowDrop = (ev) => {
+        ev.preventDefault();
+    }
     //add formations proprety to cv if it doesn't exist and then show Formations component
     renderFormations = () => {
       if(!cv.hasOwnProperty('formations')){ 
         cv.formations = [{degree:'', school:'', description:''}]; //initilize formations array
         let formationsItem = [];
         formationsItem.push(
-            <Formations handleChange={this.handleChangeFromOtherComponents} 
-             formations={cv.formations} key={'formations'}/>
+            <Formations handleChange={this.handleChangeFromOtherComponents} formations={cv.formations} key={'formations'}/>
           )
         this.setState({
           items: [...this.state.items, ...formationsItem]
@@ -92,8 +106,7 @@ class Cv extends Component {
         titleItem.push(
           <form key={'title'}><br/><div className="form-group">
             <input type="text" className="form-control border rounded" defaultValue={cv.title}
-            id="title" name="title" placeholder="title" 
-            onChange={(e) => this.handleChangeFromOtherComponents(e.target.id, e.target.value)}/>
+            id="title" name="title" placeholder="title" onChange={(e) => this.handleChangeFromOtherComponents(e.target.id, e.target.value)}/>
           </div><hr/>
           </form>
           );
@@ -108,8 +121,7 @@ class Cv extends Component {
         cv.competences = [{title:''}]; 
         let competencesItem = [];
         competencesItem.push(
-            <Competences handleChange={this.handleChangeFromOtherComponents} 
-            competences={cv.competences} key={'competences'}/>
+            <Competences handleChange={this.handleChangeFromOtherComponents} competences={cv.competences} key={'competences'}/>
         )
         this.setState({
           items: [...this.state.items, ...competencesItem]
@@ -120,8 +132,7 @@ class Cv extends Component {
         cv.experiences = [{job:'', company:'', description:''}]; 
         let experiencesItem = [];
         experiencesItem.push(
-            <Experiences handleChange={this.handleChangeFromOtherComponents} 
-            experiences={cv.experiences} key={'experiences'}/>
+            <Experiences handleChange={this.handleChangeFromOtherComponents} experiences={cv.experiences} key={'experiences'}/>
         )
         this.setState({
           items: [...this.state.items, ...experiencesItem]
@@ -132,8 +143,7 @@ class Cv extends Component {
         cv.contact = {phone:'', email:'', address:'', title:''}; 
         let contactItem = [];
         contactItem.push(
-            <Contact handleChange={this.handleChangeFromOtherComponents} 
-            contact={cv.contact} key={'contact'}/>
+            <Contact handleChange={this.handleChangeFromOtherComponents} contact={cv.contact} key={'contact'}/>
           )
         this.setState({
           items: [...this.state.items, ...contactItem]
@@ -143,20 +153,20 @@ class Cv extends Component {
     //item : cv proprety (formations, contact..), content: proprety value
     handleChangeFromOtherComponents = (item, content) => {
       cv[item] = content;
+      console.log(cv);
     }
     onClear = () => {
       cv = [];
       this.setState({items:[]})
     }
     onCancel = () => {
-      //redirect to list of cvs
+      //redirection to list of cvs
       this.props.history.push('/cvs');
     }
     onSave = () => {
       this.saveCv();
     }
     saveCvData = (cv_id) => {
-      //save each item of cv
       if(cv.hasOwnProperty('contact'))
           this.saveContact(cv.contact, cv_id);
       if(cv.hasOwnProperty('formations'))
@@ -171,9 +181,8 @@ class Cv extends Component {
       .then(response => {
         console.log(response);
         if(response.data.success===true){
-          //if cv has been saved, we save it's items(formations, contact..)
           this.saveCvData(response.data.data.id);
-          //redirect to show cv
+          //TODO redirec to show cv
           this.props.history.push('/cvs');
         }
         return response;
@@ -252,4 +261,4 @@ class Cv extends Component {
           }
     }
 }
-export default Cv;
+export default CvDnd;

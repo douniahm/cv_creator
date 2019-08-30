@@ -18,7 +18,7 @@ class ListCvs extends Component {
         if (this.state.isError===true) errorMsg = <div className="text-danger">Operation failed, try again!</div>
         this.items = this.state.cvs.map((cv, key) =>
           <tr key={key}>
-            { cv.title? (<td>{cv.title}</td>): 'NONE'}
+            { cv.title? (<td>{cv.title}</td>): 'Untitled'}
             <td>{cv.created_at}</td>
             <td>
               <Link to={{pathname: "/cv", cv: cv}}>

@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+//competences passed as props from Cv component
 let competences = [];
+/*function for update cv content in the parent component(cv), passed as props from cv creation component*/
 let handleChange;
 
+/*Adding Competence component*/
 class Competence extends Component {
     constructor(props) {
       super(props);
@@ -15,7 +18,8 @@ class Competence extends Component {
           <div>
               <form>
                 <div className="form-group">
-                  <input type="text" className="form-control border rounded" defaultValue={this.props.competence.title}
+                  <input type="text" className="form-control border rounded"
+                   defaultValue={this.props.competence.title}
                   id="title" name="title" placeholder="title" onChange={this.handleChange}/>
                 </div>
               </form>
@@ -28,7 +32,7 @@ class Competence extends Component {
       handleChange('competences',competences);
     }
 }
-
+//Competences component: has many Competence
 class Competences extends Component {
     constructor(props) {
       super(props);
@@ -45,7 +49,10 @@ class Competences extends Component {
     render(){
       return(
         <div className="container spacer col-12 login-form">
-        <div className="sub-title">Competences <button className="btn btn-light" onClick={this.newCompetence}>Add competence</button></div>
+        <div className="sub-title">
+          Competences
+           <button className="btn btn-light" 
+          onClick={this.newCompetence}><span>&#43;</span></button></div>
           <React.Fragment>
             {this.state.items}
           </React.Fragment>

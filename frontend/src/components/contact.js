@@ -17,21 +17,25 @@ class Contact extends Component {
                 <div className="row">
                 <div className="col-6">
                   <div className="form-group">
-                    <input type="text" className="form-control border rounded title" defaultValue={this.state.user}
+                    <input type="text" className="form-control border rounded title" 
+                    defaultValue={this.state.user}
                       id="user" name="user" disabled/>
                   </div>
                   <div className="form-group">
-                    <input type="number" className="form-control border rounded" defaultValue={this.props.contact.phone}
+                    <input type="number" className="form-control border rounded" 
+                    defaultValue={this.props.contact.phone}
                       id="phone" name="phone" placeholder="phone" onChange={this.handleChange}/>
                   </div>
                 </div>
                 <div className="col-6">
                   <div className="form-group">
-                    <input type="text" className="form-control border rounded" defaultValue={this.props.contact.email}
+                    <input type="text" className="form-control border rounded" 
+                    defaultValue={this.props.contact.email}
                       id="email" name="email" placeholder="email" onChange={this.handleChange}/>
                   </div>
                   <div className="form-group">
-                    <input type="text" className="form-control border rounded" defaultValue={this.props.contact.address}
+                    <input type="text" className="form-control border rounded" 
+                    defaultValue={this.props.contact.address}
                       id="address" name="address" placeholder="address" onChange={this.handleChange}/>
                   </div>
                 </div>

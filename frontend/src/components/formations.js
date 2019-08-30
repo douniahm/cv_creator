@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-let formations = []; //formations passed as props from Cv component
-let handleChange;
-
+//formations passed as props from Cv component
+let formations = [];
+/*function for update cv content in the parent component(cv), passed as props from cv creation component*/
+let handleChange; 
+/*Adding Formation component*/
 class Formation extends Component {
     constructor(props) {
       super(props);
@@ -16,16 +18,19 @@ class Formation extends Component {
               <form>
                 <div className="row">
                   <div className="form-group col-6">
-                    <input type="text" className="form-control border rounded" defaultValue={this.props.formation.degree}
+                    <input type="text" className="form-control border rounded" 
+                    defaultValue={this.props.formation.degree}
                     id="degree" name="degree" placeholder="degree" onChange={this.handleChange}/>
                   </div>
                   <div className="form-group col-6">
-                    <input type="text" className="form-control border rounded" defaultValue={this.props.formation.school}
+                    <input type="text" className="form-control border rounded" 
+                    defaultValue={this.props.formation.school}
                     id="school" name="school" placeholder="school" onChange={this.handleChange}/>
                   </div>
                 </div>
                 <div className="form-group">
-                  <input type="text" className="form-control border rounded" defaultValue={this.props.formation.description}
+                  <input type="text" className="form-control border rounded" 
+                  defaultValue={this.props.formation.description}
                   id="description" name="description" placeholder="description" onChange={this.handleChange}/>
                 </div>
               </form>
@@ -39,6 +44,7 @@ class Formation extends Component {
     }
 }
 
+//Formations component: has many Formation
 class Formations extends Component {
     constructor(props) {
       super(props);
@@ -51,11 +57,13 @@ class Formations extends Component {
       handleChange = this.props.handleChange;
       this.renderFormations();
     }
-
     render(){
       return(
         <div className="container spacer col-12 login-form">
-        <div className="sub-title">Formations <button className="btn btn-light" onClick={this.newFormation}>Add formation</button></div>
+        <div className="sub-title">
+            Formations
+            <button className="btn btn-light" onClick={this.newFormation}><span>&#43;</span></button>
+          </div>
           <React.Fragment>
             {this.state.items}
           </React.Fragment>
@@ -83,6 +91,5 @@ class Formations extends Component {
         items: [...this.state.items, ...items]
       })
     }
-    
 }
-export default Formations;
+export default Formations; 
