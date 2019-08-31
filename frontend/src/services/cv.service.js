@@ -9,14 +9,16 @@ export const cvService = {
     deleteCv,
 };
 
-async function save(title){
+async function save(title, image){
     const user = userService.isUserLogged();
     const id = user.id;
     const token = user.api_token;
+    let settings = { headers: { 'content-type': 'multipart/form-data' } }
     var formData = new FormData();
     formData.append("title", title);
+    if(image) formData.append("image", image); //if image is uploaded
     formData.append("user_id", id);
-    return await axios.post(API_URL+"cv?token="+token, formData);
+    return await axios.post(API_URL+"cv?token="+token, formData, settings);
 }
 
 async function getCv(cv_id){

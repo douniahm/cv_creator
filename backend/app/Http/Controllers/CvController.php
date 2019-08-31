@@ -19,6 +19,16 @@ class CvController extends Controller
         $cv->user_id=$request->user_id;
         $cv->title=$request->title;
 
+        //save image if exists
+        if($request->image)
+       {
+          $image = $request->image;
+          $name = time().'.'. $image->getClientOriginalExtension();
+          \Image::make($image->getRealPath())->resize(150, 150)->save( public_path('images/' . $name));
+
+          $cv->image = $name;
+        }
+        ///save cv
         if($cv->save())
             $response = ['success'=>true, 'data'=>['id'=>$cv->id,'title'=>$cv->title]];
         else  $response = ['success'=>false, 'data'=>'Couldnt register cv'];
@@ -29,6 +39,7 @@ class CvController extends Controller
         $cv = Cv::find($id);
         $cv->user_id=$request->user_id;
         $cv->title=$request->title;
+        $cv->image=$request->image;
         $cv->save();
     }
     public function destroy(Request $request){

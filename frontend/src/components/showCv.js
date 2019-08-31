@@ -78,18 +78,18 @@ class ShowCv extends Component {
     render(){
       const name = userService.isUserLogged().name;
       return(
-          //ADD BACK TO CVS ARROW
         <div className="container col-12">
           {/* cv title and contact info*/}
           <div className="row">
             <div className="col-6"> 
               <p className="cv-title">{name}</p>
-              {/*Handle untitled cvs*/}
-              {this.state.cv.title ? (<p className="cv-title">{this.state.cv.title}</p>) : ''}
+              {this.state.cv.image ? (<img src={"http://localhost:8000/images/"+this.state.cv.image} alt="cv_img"/>):''}
             </div>
             <div className="col-6">
               {this.state.cv.contact ? 
                 (<p>
+                  {/*Handle untitled cvs*/}
+                  {this.state.cv.title ? (<p className="cv-title">{this.state.cv.title}</p>) : ''}  
                   <p>{this.state.cv.contact.phone}</p>
                   <p>{this.state.cv.contact.email}</p>
                   <p>{this.state.cv.contact.address}</p>

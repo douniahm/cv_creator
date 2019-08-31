@@ -13,16 +13,16 @@ import {contactService} from '../services/contact.service'
 let lastScrollY = 0;
 let ticking = false;
 //cv data
-let cv = {title:'',};
+let cv = {title:'', image:'',}; //initialize cv with title and image
 
 class Cv extends Component {
     constructor(props) {
       super(props);
       this.handleScroll = this.handleScroll.bind(this);
       this.state = {
-        items: [], //cv elements components (Formations, Contact..)
+        items: '', //cv elements components (Formations,Experiences, Contact..)
         isSaveFailed : false, //for showing error msg
-        isTitle : false, //show only one title bar
+        isTitleAndImage : false, //show only one title bar and image uploader
       };
     }
     componentDidMount(){
@@ -71,7 +71,7 @@ class Cv extends Component {
         </div>
         </div>
     )}
-    
+
     //add formations proprety to cv if it doesn't exist and then show Formations component
     renderFormations = () => {
       if(!cv.hasOwnProperty('formations')){ 
@@ -87,19 +87,26 @@ class Cv extends Component {
       }
     }
     renderTitle = () => {
-      if(!this.state.isTitle){
+      if(!this.state.isTitleAndImage){
         let titleItem = [];
         titleItem.push(
-          <form key={'title'}><br/><div className="form-group">
-            <input type="text" className="form-control border rounded" defaultValue={cv.title}
-            id="title" name="title" placeholder="title" 
-            onChange={(e) => this.handleChangeFromOtherComponents(e.target.id, e.target.value)}/>
-          </div><hr/>
+          <form key={'title'} encType="multipart/form-data"><br/>
+            <div className="row">
+              <div className="form-group col-8">
+                <input type="text" className="form-control border rounded" defaultValue={cv.title}
+                id="title" name="title" placeholder="title" 
+                onChange={(e) => this.handleChangeFromOtherComponents(e.target.id, e.target.value)}/>
+              </div>
+              <div className="form-group col-4">
+                <input type="file" className="form-control border rounded" defaultValue={cv.image}
+                id="image" name="image"/>
+              </div>
+            </div>
           </form>
           );
         this.setState({
           items: [...this.state.items, ...titleItem],
-          isTitle: true,
+          isTitleAndImage: true,
         })
       }
     }
@@ -153,21 +160,7 @@ class Cv extends Component {
       this.props.history.push('/cvs');
     }
     onSave = () => {
-      this.saveCv();
-    }
-    saveCvData = (cv_id) => {
-      //save each item of cv
-      if(cv.hasOwnProperty('contact'))
-          this.saveContact(cv.contact, cv_id);
-      if(cv.hasOwnProperty('formations'))
-          cv.formations.forEach(f => this.saveFormation(f, cv_id));
-      if(cv.hasOwnProperty('experiences'))
-          cv.experiences.forEach(e => this.saveExperience(e, cv_id));
-      if(cv.hasOwnProperty('competences'))
-          cv.competences.forEach(c => this.saveCompetence(c, cv_id));
-    }
-    saveCv = () => {
-      cvService.save(cv.title)
+      cvService.save(cv.title, document.getElementById('image').files[0])
       .then(response => {
         console.log(response);
         if(response.data.success===true){
@@ -181,6 +174,17 @@ class Cv extends Component {
       .catch( error => {
         this.setState({isSaveFailed:true});  
       })
+    }
+    saveCvData = (cv_id) => {
+      //save each item of cv
+      if(cv.hasOwnProperty('contact'))
+          this.saveContact(cv.contact, cv_id);
+      if(cv.hasOwnProperty('formations'))
+          cv.formations.forEach(f => this.saveFormation(f, cv_id));
+      if(cv.hasOwnProperty('experiences'))
+          cv.experiences.forEach(e => this.saveExperience(e, cv_id));
+      if(cv.hasOwnProperty('competences'))
+          cv.competences.forEach(c => this.saveCompetence(c, cv_id));
     }
     saveFormation = (formation, cv_id) => {
       formationService.save(formation.degree, formation.school, formation.description,cv_id)

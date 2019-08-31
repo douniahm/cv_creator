@@ -21,6 +21,7 @@ class Cv extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
+            'image' => $this->image,
             'formations' => FormationResource::Collection($this->formations),
             'competences' => CompetenceResource::Collection($this->competences),
             'experiences' => ExperienceResource::Collection($this->experiences),
