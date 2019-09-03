@@ -1,0 +1,84 @@
+import React, { Component } from 'react';
+import {userService} from '../services/user.service';
+import { savePDF } from '@progress/kendo-react-pdf';
+
+class CvPdf extends Component {
+    render(){
+      const bodyRef = React.createRef();
+      const cv = this.props.location.cv;
+      const name = userService.isUserLogged().name;
+      return(
+        <div className="container col-12 center">
+          <button className="btn btn-lg" onClick={()=>this.createPdf(bodyRef.current)}><img src="/icons/pdf.png" alt="pdf"/>Export PDF</button>
+          <div className="row" ref={bodyRef}>
+            {/* right side: image, address title and contact info*/}
+            
+            <div className="col-4"> 
+                <br/>
+              {cv.image ? (<img src={"http://localhost:8000/images/"+cv.image} alt="cv_img"/>):''}
+              <br/> <br/>
+              {cv.contact ? 
+                (<div>
+                  {/*Handle untitled cvs: TRY TO MEROVE IT*/}
+                  <p>{cv.contact.phone}</p>
+                  <p>{cv.contact.email}</p>
+                  <p>{cv.contact.address}</p>
+                </div>) : ''
+              }
+            </div>
+            {/* left side: title, name, formations...*/}
+            <div className="col-8 vertical-line">
+            <p className="cv-title text-center">{name}</p>
+            <p className="cv-title blue-text text-center">{cv.title}</p>
+            {cv.formations.length!==0 ? <p className="sub-title blue-text">Formations</p> : ''}
+              {
+                  (cv.formations.map(f =>{
+                      return(
+                        <div key={f}>
+                          <p className="sub-title">{f.degree}</p>
+                          <p>{f.school}</p>
+                          <p>{f.description}</p>
+                          <hr className="mini-hr ml-0"/>
+                        </div>
+                      )
+                    }))
+              }
+
+              {cv.experiences.length!==0 ? <p className="sub-title blue-text">Experiences</p> : ''}
+              { 
+                cv.experiences.map( e=>{
+                  return(
+                    <div>
+                      <p className="sub-title">{e.job}</p>
+                      <p>{e.company}</p>
+                      <p>{e.description}</p>
+                      <hr className="mini-hr ml-0"/>
+                    </div>
+                  )
+                })
+              }
+              {cv.competences.length!==0 ? <p className="sub-title blue-text">Competences</p> : ''}
+              {     
+                cv.competences.map( c =>{
+                    return(
+                      <div key={c}>
+                       <p>{c.title}</p>
+                        <hr className="mini-hr ml-0"/>
+                      </div>
+                    )
+                  }) 
+              }
+            </div>            
+          </div>
+        </div>
+      )
+  }
+  createPdf = (html) => {
+    savePDF(html, { 
+      paperSize: 'A4',
+      fileName: 'cv.pdf',
+      margin: 3
+    })
+  }
+}
+export default CvPdf;

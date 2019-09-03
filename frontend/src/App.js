@@ -8,6 +8,7 @@ import Cv from './components/cv'
 import CvDnd from './components/cvdnd'
 import ListCvs from './components/listCvs'
 import ShowCv from './components/showCv' 
+import CvPdf from './components/cvpdf' 
 import './App.css';
 
 class App extends Component {
@@ -24,6 +25,7 @@ class App extends Component {
               <ProtectedRoutes path='/cvs' component={ListCvs} />
               <ProtectedRoutes path='/cv' component={ShowCv}/>
               <ProtectedRoutes path='/newdnd' component={CvDnd}/>
+              <ProtectedRoutes path='/pdf' component={CvPdf}/>
               <Route path='/register' component={Register} />
               <Route path='/login' component={Login} />
             </Switch>

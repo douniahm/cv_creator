@@ -72,7 +72,6 @@ class ShowCv extends Component {
       };
     }
     componentDidMount(){
-      console.log(this.props.location.cv)
       this.getItems();
     }
     render(){
@@ -87,13 +86,13 @@ class ShowCv extends Component {
             </div>
             <div className="col-6">
               {this.state.cv.contact ? 
-                (<p>
+                (<div>
                   {/*Handle untitled cvs*/}
                   {this.state.cv.title ? (<p className="cv-title">{this.state.cv.title}</p>) : ''}  
                   <p>{this.state.cv.contact.phone}</p>
                   <p>{this.state.cv.contact.email}</p>
                   <p>{this.state.cv.contact.address}</p>
-                </p>) : ''
+                </div>) : ''
               }
               
             </div>
@@ -118,6 +117,7 @@ class ShowCv extends Component {
               {this.state.itemToRender}
             </div>
           </div>
+              
         </div>
       )
   }

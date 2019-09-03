@@ -71,7 +71,6 @@ input[type="number"]{
   width: 30%;
 }
 .cv-title{
-  font-size: black;
   font-weight: bold;
   font-size: 20px;
 }
@@ -79,4 +78,11 @@ input[type="number"]{
   cursor: pointer;
   font-weight: bold;
   text-align: center;
+}
+.blue-text{
+  color: #64B1F8 ;
+}
+.vertical-line{
+  border-left: 2px solid #64B1F8 ;
+  height: auto;
 }

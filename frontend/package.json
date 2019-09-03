@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@progress/kendo-drawing": "^1.5.12",
+    "@progress/kendo-react-pdf": "^3.3.0",
     "bootstrap": "^4.3.1",
-    "react": "^16.9.0", 
+    "react": "^16.9.0",
     "react-dnd-html5-backend": "^9.3.4",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",

@@ -25,6 +25,9 @@ class ListCvs extends Component {
                 <button type="submit" className="btn btn-dark">See</button>
               </Link> &nbsp; &nbsp; 
               <button type="submit" className="btn" onClick = {() => this.onDelete(cv.id)}>Delete</button>
+              <Link to={{pathname: "/pdf", cv: cv}}>
+                <button type="submit" className="btn btn-dark">PDF version</button>
+              </Link> &nbsp; &nbsp; 
             </td>
           </tr>
         );
@@ -50,7 +53,6 @@ class ListCvs extends Component {
         </div>
       )
   }
-    
     //get user Cvs from backend
    getCvs(){
      cvService.getCvs()
@@ -65,6 +67,7 @@ class ListCvs extends Component {
         this.setState({isError:true})
         });  
     }
+    
     //Delete a cv
     onDelete(cv_id){
       cvService.deleteCv(cv_id)
