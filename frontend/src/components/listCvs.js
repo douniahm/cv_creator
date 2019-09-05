@@ -15,7 +15,7 @@ class ListCvs extends Component {
     }
     render(){
       let errorMsg;
-        if (this.state.isError===true) errorMsg = <div className="text-danger">Operation failed, try again!</div>
+        if (this.state.isError) errorMsg = <div className="text-danger">Operation failed, try again!</div>
         this.items = this.state.cvs.map((cv, key) =>
           <tr key={key}>
             { cv.title? (<td>{cv.title}</td>): 'Untitled'}

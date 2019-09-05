@@ -81,7 +81,6 @@ class Experiences extends Component {
     }
     newExperience = () => {
       experiences.push({job:'', company:'', description:''});
-      console.log(experiences);
       this.renderNewExperience();
     }
     renderExperiences = () => {

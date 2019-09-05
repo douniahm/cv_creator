@@ -22,7 +22,7 @@ class Cv extends Component {
       this.state = {
         items: '', //cv elements components (Formations,Experiences, Contact..)
         isSaveFailed : false, //for showing error msg
-        isTitleAndImage : false, //show only one title bar and image uploader
+        hasTitleAndImage : false, //show only one title bar and image uploader
       };
     }
     componentDidMount(){
@@ -32,8 +32,8 @@ class Cv extends Component {
         window.removeEventListener('scroll', this.handleScroll);
     }
     render(){
-        let errorMsg;
-        if (this.state.isSaveFailed===true) errorMsg = <div className="text-danger">Operation failed, try again!</div>
+      let errorMsg;
+      if (this.state.isSaveFailed) errorMsg = <div className="text-danger">Operation failed, try again!</div>
       return(
         <div className="container col-12 bg-light cv-container">
         <div className="title">Build your CV <br/> {errorMsg}</div>
@@ -81,13 +81,14 @@ class Cv extends Component {
             <Formations handleChange={this.handleChangeFromOtherComponents} 
              formations={cv.formations} key={'formations'}/>
           )
+          //update state
         this.setState({
           items: [...this.state.items, ...formationsItem]
         })
       }
     }
     renderTitle = () => {
-      if(!this.state.isTitleAndImage){
+      if(!this.state.hasTitleAndImage){
         let titleItem = [];
         titleItem.push(
           <form key={'title'} encType="multipart/form-data"><br/>
@@ -106,7 +107,7 @@ class Cv extends Component {
           );
         this.setState({
           items: [...this.state.items, ...titleItem],
-          isTitleAndImage: true,
+          hasTitleAndImage: true,
         })
       }
     }

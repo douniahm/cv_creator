@@ -50,9 +50,7 @@ class Contact extends Component {
     }
     //if user is logged, get his name from browser local storage
     getUserData = () => {
-      if(userService.isUserLogged()){
         this.setState({user: userService.isUserLogged().name}) 
-      }
     }
 }
 export default Contact;

@@ -4,6 +4,7 @@ import {userService} from '../services/user.service';
 
 class Navbar extends Component {
     render(){
+        //navbar is showen only if user is logged
       if(userService.isUserLogged()!=null){
       return(
         <nav className="navbar navbar-expand-lg bg-dark">

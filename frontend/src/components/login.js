@@ -4,7 +4,7 @@ import { Formik, Form, Field } from 'formik';
 import {userService} from '../services/user.service';
 import * as Yup from 'yup';
 
-
+//Form validation
 const SignupSchema = Yup.object().shape({ 
   password: Yup.string()
     .required('Required'),
@@ -20,12 +20,15 @@ class Login extends Component {
       this.state = {
         isLoginFailed: false, //for showing error msg
       };
-      }
+    }
+    //if user already logged, redirect him to cvs 
+    componentDidMount(){
+      if(userService.isUserLogged()) this.toCvs();
+    }
 
       render(){
-        const isLoginFailed = this.state.isLoginFailed;
         let errorMsg;
-        if (isLoginFailed===true) errorMsg = <div className="text-danger">Login failed, try again!</div>
+        if (this.state.isLoginFailed) errorMsg = <div className="text-danger">Login failed, try again!</div>
         return(
           <div>
             <div className="title">Connection</div>
@@ -83,10 +86,8 @@ class Login extends Component {
             };
             // save user data in browser local storage
             localStorage.setItem('user', JSON.stringify(userData));
-
             //REDIRECT to user's cvs
-            window.location.href = "/cvs";
-
+            this.toCvs();
           } 
           //show error msg 
           else this.setState({isLoginFailed:true});  
@@ -95,6 +96,10 @@ class Login extends Component {
           //show error msg 
           this.setState({isLoginFailed:true});
         });
-      };
+      }
+      toCvs(){
+        window.location.href = "/cvs";
+      }
+      
 }
 export default Login;
