@@ -16,7 +16,7 @@ let ticking = false;
 //cv data
 let cv = {title:'', image:'',}; //initialize cv with title and image
 
-class CvDnd extends Component {
+class newCv extends Component {
     constructor(props) {
       super(props);
       this.handleScroll = this.handleScroll.bind(this);
@@ -269,4 +269,4 @@ class CvDnd extends Component {
           }
     }
 }
-export default CvDnd;
+export default newCv;

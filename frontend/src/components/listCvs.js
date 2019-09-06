@@ -22,12 +22,9 @@ class ListCvs extends Component {
             <td>{cv.created_at}</td>
             <td>
               <Link to={{pathname: "/cv", cv: cv}}>
-                <button type="submit" className="btn btn-dark">See</button>
+                <button type="submit" className="btn btn-outline-dark">Show Cv</button>
               </Link> &nbsp; &nbsp; 
-              <button type="submit" className="btn" onClick = {() => this.onDelete(cv.id)}>Delete</button>
-              <Link to={{pathname: "/pdf", cv: cv}}>
-                <button type="submit" className="btn btn-dark">PDF version</button>
-              </Link> &nbsp; &nbsp; 
+              <button type="submit" className="btn btn-outline-danger" onClick = {() => this.onDelete(cv.id)}>Delete</button>
             </td>
           </tr>
         );
@@ -53,7 +50,7 @@ class ListCvs extends Component {
         </div>
       )
   }
-    //get user Cvs from backend
+    //get all user cvs from api
    getCvs(){
      cvService.getCvs()
       .then(response => {
@@ -72,7 +69,6 @@ class ListCvs extends Component {
     onDelete(cv_id){
       cvService.deleteCv(cv_id)
       .then(response => {
-        console.log(response);
         if(response.status===200){
            this.getCvs();
         }

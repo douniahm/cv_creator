@@ -19,11 +19,6 @@ class Navbar extends Component {
                             New Cv
                         </NavLink>
                     </li> &nbsp; /&nbsp; 
-                    <li className="nav-item active">
-                        <NavLink to={"/newdnd"} activeClassName="activeLink" className="navLink">
-                            Drog&Drop Cv
-                        </NavLink>
-                    </li> &nbsp; /&nbsp; 
                     <li className="nav-item">
                         <NavLink onClick={this.onLogOut} to="/login" className="navLink">
                             Log out

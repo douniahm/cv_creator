@@ -4,11 +4,9 @@ import ProtectedRoutes from './guards/ProtectedRoutes.guard'
 import Navbar from './components/navbar'
 import Register from './components/register'
 import Login from './components/login'
-import Cv from './components/cv'
-import CvDnd from './components/cvdnd'
+import newCv from './components/newCv'
 import ListCvs from './components/listCvs'
 import ShowCv from './components/showCv' 
-import CvPdf from './components/cvpdf' 
 import './App.css';
 
 class App extends Component {
@@ -21,11 +19,9 @@ class App extends Component {
         : <Navbar />}
             <Switch>
               <ProtectedRoutes exact path='/' component={ListCvs} /> 
-              <ProtectedRoutes path='/new' component={Cv} />
               <ProtectedRoutes path='/cvs' component={ListCvs} />
               <ProtectedRoutes path='/cv' component={ShowCv}/>
-              <ProtectedRoutes path='/newdnd' component={CvDnd}/>
-              <ProtectedRoutes path='/pdf' component={CvPdf}/>
+              <ProtectedRoutes path='/new' component={newCv}/>
               <Route path='/register' component={Register} />
               <Route path='/login' component={Login} />
             </Switch>

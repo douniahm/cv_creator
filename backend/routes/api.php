@@ -15,8 +15,7 @@ use Illuminate\Http\Request;
 Route::group(['middleware' => ['jwt-auth','api-header']], function () {
     // all routes to protected resources are registered here
     Route::get('user', 'UserController@index');
-    Route::get('cvs', 'CvController@indexAll');
-    Route::get('cv', 'CvController@index');
+    Route::get('cvs', 'CvController@index');
     Route::post('cv', 'CvController@create');
     Route::post('cv/del', 'CvController@destroy');
     Route::post('formation', 'FormationController@create');

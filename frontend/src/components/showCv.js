@@ -1,150 +1,107 @@
 import React, { Component } from 'react';
+import { savePDF } from '@progress/kendo-react-pdf';
 import {userService} from '../services/user.service';
+import {cvService} from '../services/cv.service';
 
-//helpers components for displaying fomrations, experiences and competences
-class Formations extends Component {
-  render(){
-      return(
-        <div>
-          <p className="title">Formations</p>
-          {
-            this.props.formations.map(f =>{
-              return(
-                <div key={f}>
-                  <p className="cv-title">{f.degree}</p>
-                  <p>{f.school}</p>
-                  <p>{f.description}</p>
-                  <hr className="mini-hr ml-0"/>
-                </div>
-              )
-            })
-          }
-        </div>
-  )}
-}
-class Competences extends Component {
-  render(){
-      return(
-        <div>
-          <p className="title">Competences</p>
-          {
-            this.props.competences.map( c =>{
-              return(
-                <div key={c}>
-                 <p>{c.title}</p>
-                  <hr className="mini-hr ml-0"/>
-                </div>
-              )
-            })
-          }
-          
-        </div>
-  )}
-}
-class Experiences extends Component {
-  render(){
-      return(
-        <div>
-          <p className="title">Experiences</p>
-          {
-            this.props.experiences.map( e=>{
-              return(
-                <div key={e}>
-                  <p className="cv-title">{e.job}</p>
-                  <p>{e.company}</p>
-                  <p>{e.description}</p>
-                  <hr className="mini-hr ml-0"/>
-                </div>
-              )
-            })
-          }
-        </div>
-  )}
-}
-//Show CV component
-class ShowCv extends Component {
-    constructor(props) {
-      super(props);
-      this.state = {
-        items: [], //cv elements (Formations, Contact..), useful for showin a navbar that permit to naviguate between elements
-        cv: this.props.location.cv,//cv is passed as props from listCv component
-        itemToRender: '', //user choose which item(formations, experiences..) want to see 
-      };
-    }
-    componentDidMount(){
-      this.getItems();
-    }
+class showCv extends Component {
     render(){
+      const bodyRef = React.createRef();
+      const cv = this.props.location.cv;
       const name = userService.isUserLogged().name;
       return(
-        <div className="container col-12">
-          {/* cv title and contact info*/}
-          <div className="row">
-            <div className="col-6"> 
-              <p className="cv-title">{name}</p>
-              {this.state.cv.image ? (<img src={"http://localhost:8000/images/"+this.state.cv.image} alt="cv_img"/>):''}
-            </div>
-            <div className="col-6">
-              {this.state.cv.contact ? 
+        <div className="container col-12 center">
+          <div className="text-right">
+            <button className="btn btn-lg btn-outline-secondary" onClick={()=>this.onExportPdf(bodyRef.current)}>
+              Export PDF
+            </button>
+            &nbsp; &nbsp; 
+            <button className="btn btn-lg btn-outline-danger" onClick={()=>this.onDelete(cv.id)}>
+              Delete
+            </button>
+          </div>
+          {/* CV */}
+          <div className="row" ref={bodyRef}>
+            {/* right side: image, address title and contact info*/}
+            <div className="col-3"> 
+                <br/>
+              {cv.image ? (<img src={"http://localhost:8000/images/"+cv.image} alt="cv_img"/>):''}
+              <br/> <br/>
+              {cv.contact ? 
                 (<div>
-                  {/*Handle untitled cvs*/}
-                  {this.state.cv.title ? (<p className="cv-title">{this.state.cv.title}</p>) : ''}  
-                  <p>{this.state.cv.contact.phone}</p>
-                  <p>{this.state.cv.contact.email}</p>
-                  <p>{this.state.cv.contact.address}</p>
+                  {/*Handle untitled cvs: TRY TO MEROVE IT*/}
+                  <p>{cv.contact.phone}</p>
+                  <p>{cv.contact.email}</p>
+                  <p>{cv.contact.address}</p>
                 </div>) : ''
               }
-              
             </div>
+            {/* left side: title, name, formations...*/}
+            <div className="col-9 vertical-line">
+            <p className="cv-title text-center">{name}</p>
+            <p className="cv-title blue-text text-center">{cv.title}</p>
+            {cv.formations.length!==0 ? <p className="sub-title blue-text">Formations</p> : ''}
+              {/*Formations*/
+                  (cv.formations.map(f =>{
+                      return(
+                        <div key={f}>
+                          <p className="sub-title">{f.degree}</p>
+                          <p>{f.school}</p>
+                          <p>{f.description}</p>
+                          <hr className="mini-hr ml-0"/>
+                        </div>
+                      )
+                    }))
+              }
+
+              {cv.experiences.length!==0 ? <p className="sub-title blue-text">Experiences</p> : ''}
+              { /*Experiences*/
+                cv.experiences.map( e=>{
+                  return(
+                    <div>
+                      <p className="sub-title">{e.job}</p>
+                      <p>{e.company}</p>
+                      <p>{e.description}</p>
+                      <hr className="mini-hr ml-0"/>
+                    </div>
+                  )
+                })
+              }
+              {cv.competences.length!==0 ? <p className="sub-title blue-text">Competences</p> : ''}
+              {/*Competences*/     
+                cv.competences.map( c =>{
+                    return(
+                      <div key={c}>
+                       <p>{c.title}</p>
+                        <hr className="mini-hr ml-0"/>
+                      </div>
+                    )
+                  }) 
+              }
+            </div>            
           </div>
-          <hr className="hr"/>
-          <div className="row">
-            <div className="col-3">
-              {/* sidebar*/}
-              <div className="card border-light">
-              <div className="card-body">
-                <table className="table table-hover">
-                  <tbody>
-                  {this.state.items.map((item) => {     
-                    return (<tr className="item alert alert-secondary" key={item} onClick={() => this.renderItem(item)}><td>{item}</td></tr>) 
-                  })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            </div>
-            <div className="col-9">
-              {this.state.itemToRender}
-            </div>
-          </div>
-              
         </div>
       )
   }
-  //get cv items, store them in this.state.items, and show them as options in sidebar
-  getItems(){
-    let items = [];
-    let keys = Object.keys(this.state.cv);
-    keys.forEach( k => {
-      if(k === 'formations') items.push('Formations')
-      else if(k === 'experiences') items.push('Experiences')
-      else if(k === 'competences') items.push('Competences')
-    });
-    this.setState({
-      items: [...this.state.items, ...items]
+  //download cv as pdf
+  onExportPdf = (html) => {
+    savePDF(html, { 
+      paperSize: "A3",
+      fileName: 'cv.pdf',
+      margin: 40
     })
   }
-  //render item after user's choice from sidebar
-  renderItem = (item)=>{
-    if(item === 'Formations') this.setState({
-      itemToRender: <Formations key='formations' formations={this.state.cv.formations}/>
+  //Delete cv
+  onDelete(cv_id){
+    cvService.deleteCv(cv_id)
+    .then(response => {
+      if(response.status===200){
+        this.props.history.push('/cvs');
+      }
+      return response;
     })
-    else if(item === 'Experiences') this.setState({
-      itemToRender: <Experiences key='experiences' experiences={this.state.cv.experiences}/>
-    })
-    else if(item === 'Competences') this.setState({
-      itemToRender: <Competences key='competences' competences={this.state.cv.competences}/>
-    })
+    .catch( error => {
+      this.setState({isError:true})
+      });  
   }
 }
-export default ShowCv;
+export default showCv;
