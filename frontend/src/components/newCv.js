@@ -14,7 +14,7 @@ import {contactService} from '../services/contact.service'
 let lastScrollY = 0;
 let ticking = false;
 //cv data
-let cv = {title:'', image:'',}; //initialize cv with title and image
+let cv;
 
 class newCv extends Component {
     constructor(props) {
@@ -28,6 +28,11 @@ class newCv extends Component {
     }
     componentDidMount(){
       window.addEventListener('scroll', this.handleScroll, true);
+      this.iinitializeCv();
+      
+    }
+    iinitializeCv(){
+      cv = {title:'', image:'',}; //initialize cv with title and image
     }
     componentWillUnmount() {
         window.removeEventListener('scroll', this.handleScroll);

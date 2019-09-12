@@ -24,7 +24,7 @@ class showCv extends Component {
             {/* right side: image, address title and contact info*/}
             <div className="col-3"> 
                 <br/>
-              {cv.image ? (<img src={"http://localhost:8000/images/"+cv.image} alt="cv_img"/>):''}
+              {cv.image ? (<img src={"http://localhost:4000/images/"+cv.image} alt="cv_img"/>):''}
               <br/> <br/>
               {cv.contact ? 
                 (<div>
