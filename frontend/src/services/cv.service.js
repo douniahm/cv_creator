@@ -1,7 +1,7 @@
 import axios from "axios";
 import {userService} from '../services/user.service';
 const API_URL = process.env.REACT_APP_API_URL;
-var user_id;
+var user_id = 0;
 var token;
 
 if( userService.isUserLogged()){
@@ -15,12 +15,12 @@ export const cvService = {
     deleteCv,
 };
 
-async function save(title, image){
-    let settings = { headers: { 'content-type': 'multipart/form-data' } }
+ async function save(title, image){
+    let settings = { headers: { 'content-type': 'multipart/form-data' } };
     var formData = new FormData();
-    formData.append("title", title);
-    if(image) formData.append("image", image); //if image is uploaded
     formData.append("user_id", user_id);
+    formData.append("title", title);
+    if(image) formData.append("image", image);
     return await axios.post(API_URL+"cv?token="+token, formData, settings);
 }
 
